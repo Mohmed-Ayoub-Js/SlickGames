@@ -32,7 +32,6 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/'));
 });
 app.get('/user/:id' , (req, res) => {
-   res.status(404).send('Not Found'); 
     const id = req.params.id;
     con.query('SELECT * FROM users WHERE id = ?', [id], (err, result) => {
         if (err) throw err;
@@ -40,7 +39,6 @@ app.get('/user/:id' , (req, res) => {
     })
 })
 app.get('/user' , (req, res) => {
-   res.status(404).send('Not Found'); 
     const id = req.params.id;
     con.query('SELECT * FROM users ', (err, result) => {
         if (err) throw err;
@@ -48,7 +46,6 @@ app.get('/user' , (req, res) => {
     })
 })
 app.post('/api/register', (req, res) => {
-   res.status(404).send('Not Found'); 
     const email = req.body.email;
     const username = req.body.username;
     const password = req.body.password;
@@ -74,7 +71,6 @@ app.post('/api/register', (req, res) => {
 });
 
 app.post('/api/login', (req, res) => {
-   res.status(404).send('Not Found'); 
     const email = req.body.email;
     const password = req.body.password;
   
@@ -123,14 +119,12 @@ const verfiyJwt = (req, res , next) => {
   }
 }
 app.get('/check/' ,verfiyJwt, (req , res) => {
-   res.status(404).send('Not Found'); 
   return res.json({message: 'good!'})
 })
 
 
 
 app.post('/game' , (req , res) => {
-  res.status(404).send('Not Found'); 
     const gameName = req.body.gameName;
     const imageLink = req.body.imageLink;
     const description = req.body.description;
@@ -151,7 +145,6 @@ app.post('/game' , (req , res) => {
 
 
 app.get('/api/game' , (req , res) =>{
-   res.status(404).send('Not Found'); 
   con.query('SELECT * FROM games ', (err, result) => {
     if (err) throw err;
     res.json(result);
