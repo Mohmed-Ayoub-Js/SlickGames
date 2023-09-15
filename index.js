@@ -10,10 +10,10 @@ app.use(cors();
 
 app.use(express.json());
 const con = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'game',
+    host: 'sql11.freemysqlhosting.net',
+    user: 'sql11646719',
+    password: 'tR7w8WlKlj',
+    database: 'sql11646719',
 });
 app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', (req, res) => {
