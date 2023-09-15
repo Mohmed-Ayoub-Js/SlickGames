@@ -6,11 +6,7 @@ const mysql = require('mysql');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const path = require('path');
-app.use(cors({
-  origin: ['http://localhost:3000'],
-  methods:['GET', 'POST'],
-  credentials:true,
-}));
+app.use(cors();
 
 app.use(express.json());
 const con = mysql.createConnection({
