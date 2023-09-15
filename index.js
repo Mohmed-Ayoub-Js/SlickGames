@@ -12,7 +12,7 @@ app.use(cors({
   credentials:true,
 }));
 app.use((req, res, next) => {
-  const allowedRoutes = ['/register', '/profile']; // قائمة المسارات المسموح بها
+  const allowedRoutes = ['/register', '/profile','/']; // قائمة المسارات المسموح بها
   if (allowedRoutes.includes(req.url)) {
     next(); // المسار مسموح به، قم بمرور الطلب
   } else {
