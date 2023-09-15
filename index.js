@@ -15,6 +15,10 @@ const con = mysql.createConnection({
     password: 'FkbA0051ysTHJzXCrWmW',
     database: 'b3rfzhomvvjj9sabwkqj',
 });
+if(!con){console.log('errro to conntect to database');}
+else {
+    console.log('conntected');
+}
 app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/'));
