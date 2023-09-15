@@ -14,10 +14,10 @@ app.use(cors({
 
 app.use(express.json());
 const con = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'game',
+    host: 'b3rfzhomvvjj9sabwkqj-mysql.services.clever-cloud.com',
+    user: 'uyuolcdppeeatjsb',
+    password: 'FkbA0051ysTHJzXCrWmW',
+    database: 'b3rfzhomvvjj9sabwkqj',
 });
 app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', (req, res) => {
