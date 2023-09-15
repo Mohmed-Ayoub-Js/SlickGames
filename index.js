@@ -11,7 +11,14 @@ app.use(cors({
   methods:['GET', 'POST'],
   credentials:true,
 }));
-
+app.use((req, res, next) => {
+  const allowedRoutes = ['/register', '/profile']; // قائمة المسارات المسموح بها
+  if (allowedRoutes.includes(req.url)) {
+    next(); // المسار مسموح به، قم بمرور الطلب
+  } else {
+    res.status(404).send('Not Found'); // المسار غير مسموح به، قم بإرجاع 404
+  }
+});
 app.use(express.json());
 const con = mysql.createConnection({
     host: 'b3rfzhomvvjj9sabwkqj-mysql.services.clever-cloud.com',
