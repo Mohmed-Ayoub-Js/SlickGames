@@ -9,16 +9,24 @@ const path = require('path');
 app.use(cors());
 
 app.use(express.json());
+
+
 const con = mysql.createConnection({
-    host: 'b3rfzhomvvjj9sabwkqj-mysql.services.clever-cloud.com',
-    user: 'uyuolcdppeeatjsb',
-    password: 'FkbA0051ysTHJzXCrWmW',
-    database: 'b3rfzhomvvjj9sabwkqj',
+  host: 'b3rfzhomvvjj9sabwkqj-mysql.services.clever-cloud.com',
+  user: 'uyuolcdppeeatjsb',
+  password: 'FkbA0051ysTHJzXCrWmW',
+  database: 'b3rfzhomvvjj9sabwkqj',
 });
-if(!con){console.log('errro to conntect to database');}
-else {
-    console.log('conntected');
-}
+
+con.connect(function (err) {
+  if (err) {
+    console.error('خطأ في الاتصال بقاعدة البيانات:', err);
+  } else {
+    console.log('تم الاتصال بنجاح بقاعدة البيانات');
+  }
+});
+
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/'));
