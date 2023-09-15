@@ -12,10 +12,10 @@ app.use(express.json());
 
 
 const con = mysql.createConnection({
-  host: 'b3rfzhomvvjj9sabwkqj-mysql.services.clever-cloud.com',
-  user: 'uyuolcdppeeatjsb',
-  password: 'FkbA0051ysTHJzXCrWmW',
-  database: 'b3rfzhomvvjj9sabwkqj',
+  host: 'sql11.freemysqlhosting.net',
+  user: 'sql11646719',
+  password: 'tR7w8WlKlj',
+  database: 'sql11646719',
 });
 
 con.connect(function (err) {
