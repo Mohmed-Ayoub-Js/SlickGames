@@ -7,11 +7,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const path = require('path');
 require('dotenv').config();
-app.use(cors({
-  origin: ['http://slickgames.onlinewebshop.net/'],
-  methods:['GET', 'POST'],
-  credentials:true,
-}));
+app.use(cors();
 
 app.use(express.json());
 const con = mysql.createConnection({
