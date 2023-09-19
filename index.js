@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 const path = require('path');
 require('dotenv').config();
 app.use(cors({
-  origin: ['http://localhost:3000'],
+  origin: ['http://slickgames.onlinewebshop.net/'],
   methods:['GET', 'POST'],
   credentials:true,
 }));
