@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const path = require('path');
 require('dotenv').config();
-app.use(cors();
+app.use(cors());
 
 app.use(express.json());
 const con = mysql.createConnection({
