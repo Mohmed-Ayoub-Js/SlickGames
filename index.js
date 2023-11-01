@@ -5,7 +5,7 @@ const mysql = require('mysql');
 const port = 3001;
 app.use(express.json());
 const corsOptions = {
-  origin: 'https://slickgames.000webhostapp.com/',
+  origin: '*',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 };
 
