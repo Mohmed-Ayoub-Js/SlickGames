@@ -32,7 +32,7 @@ app.post('/', (req, res) => {
   const moreImage = req.body.moreImage;
   const link = req.body.link;
   const sql = 'INSERT INTO software  (name, size, image, developer, type, des, moreImage, link) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-  con.query(sql, [name, size, image, developer, type, des, moreImage, link, updatedView], (err, results) => {
+  con.query(sql, [name, size, image, developer, type, des, moreImage, link], (err, results) => {
     if (err) {
       console.error('خطأ في إدراج البيانات:', err);
       res.status(500).json({ error: 'خطأ في إدراج البيانات' });
