@@ -45,7 +45,7 @@ app.post('/', (req, res) => {
 
 app.post('/view/:itemId', (req, res) => {
   const view = req.params.itemId;
-  const sql = `UPDATE software SET views = views + 1 WHERE id = ${view}`;
+  const sql = `UPDATE software SET view = view + 1 WHERE id = ${view}`;
   con.query(sql, [view], (err, result) => {
     if (err) {
       throw err;
