@@ -45,13 +45,11 @@ app.post('/', (req, res) => {
 
 app.post('/view/:itemId', (req, res) => {
   const view = req.params.itemId;
-  const sql = `UPDATE software SET view = view + 1 WHERE id = ?`;
-  con.query(sql, [view], (err, result) => {
+  const sql = `UPDATE software SET views = views + 1 WHERE id = ${view}`;
+  db.query(sql, [view], (err, result) => {
     if (err) {
       throw err;
     }
-    console.log(`تم زيادة مشاهدات العنصر رقم ${itemId}`);
-    res.send('تم زيادة مشاهدات العنصر');
   });
 });
 
