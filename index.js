@@ -31,22 +31,29 @@ app.post('/', (req, res) => {
   const des = req.body.des;
   const moreImage = req.body.moreImage;
   const link = req.body.link;
-  const view = req.body.view;
-  const updatedView = view + 1;
-  const sql = 'INSERT INTO software  (name, size, image, developer, type, des, moreImage, link, view) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+  const sql = 'INSERT INTO software  (name, size, image, developer, type, des, moreImage, link) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
   con.query(sql, [name, size, image, developer, type, des, moreImage, link, updatedView], (err, results) => {
     if (err) {
       console.error('خطأ في إدراج البيانات:', err);
       res.status(500).json({ error: 'خطأ في إدراج البيانات' });
     } else {
       console.log('تم إدراج البيانات بنجاح');
-      // قم بإرجاع نجاح العملية إلى العميل
       res.json({ success: true });
     }
   });
 });
 
-
+app.post('/view/:itemId', (req, res) => {
+  const view = req.params.itemId;
+  const sql = `UPDATE software SET views = views + 1 WHERE id = ?`;
+  db.query(sql, [view], (err, result) => {
+    if (err) {
+      throw err;
+    }
+    console.log(`تم زيادة مشاهدات العنصر رقم ${itemId}`);
+    res.send('تم زيادة مشاهدات العنصر');
+  });
+});
 
 app.get('/software', (req, res) => {
     const sql = 'SELECT * FROM software';
