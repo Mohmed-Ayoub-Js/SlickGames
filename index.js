@@ -5,7 +5,7 @@ const mysql = require('mysql');
 const port = 3001;
 app.use(express.json());
 const corsOptions = {
-  origin: '*',
+  origin: 'http://127.0.0.1:5500',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 };
 
