@@ -12,10 +12,10 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 const con = mysql.createConnection({
-    host: 'sql11.freemysqlhosting.net',
-    user: 'sql11658297',
-    password: 'aKZCq8DlmY',
-    database:'sql11658297',
+    host: 'sql204.infinityfree.com',
+    user: 'if0_35406542',
+    password: '',
+    database:'if0_35406542_software',
 });
 
 
