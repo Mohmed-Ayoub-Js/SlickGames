@@ -57,7 +57,7 @@ app.get('/software', (req, res) => {
     const sql = 'SELECT * FROM software';
     con.query(sql, (err, results) => {
       if (err) {
-        console.error('خطأ في استعراض البيانات:', err);
+        console.error('error to show data from database');
         res.status(500).json({ error: 'خطأ في استعراض البيانات' });
       } else {
         res.json(results);
