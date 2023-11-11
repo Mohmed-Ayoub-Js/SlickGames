@@ -12,7 +12,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 const con = mysql.createConnection({
-    host: 'sql204.infinityfree.com',
+    host: 'http://sql204.infinityfree.com/',
     user: 'if0_35406542',
     password: '8Ia6WbjIGL',
     database:'if0_35406542_software',
