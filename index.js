@@ -1,93 +1,131 @@
 const express = require('express');
-const app = express();
+const fs = require('fs');
 const cors = require('cors');
-const mysql = require('mysql');
+const data = require('./data.json');
+const app = express();
 const port = 3001;
-app.use(express.json());
-const corsOptions = {
-  origin: 'http://127.0.0.1:5500',
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-};
-
-app.use(cors(corsOptions));
-
-const con = mysql.createConnection({
-    host: 'sql204.infinityfree.com',
-    user: 'if0_35406542',
-    password: '8Ia6WbjIGL',
-    database:'if0_35406542_software',
-});
+const password = require('./password.json');
+const uuid = require('uuid');
+const bodyParser = require('body-parser');
+app.use(cors());
+app.use(bodyParser.json());
 
 
-if(!con){
-    console.log('error creating connection');
-}
-app.post('/', (req, res) => {
-  const name = req.body.name;
-  const size = req.body.size;
-  const image = req.body.image;
-  const developer = req.body.developer;
-  const type = req.body.type;
-  const des = req.body.des;
-  const moreImage = req.body.moreImage;
-  const link = req.body.link;
-  const sql = 'INSERT INTO software  (name, size, image, developer, type, des, moreImage, link) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-  con.query(sql, [name, size, image, developer, type, des, moreImage, link], (err, results) => {
-    if (err) {
-      console.error('خطأ في إدراج البيانات:', err);
-      res.status(500).json({ error: 'خطأ في إدراج البيانات' });
+
+app.post("/add", (req, res, next) => {
+    console.log("Hellooo from products");
+    const { name, family, number, day, mounth, year, subject , Subscription} = req.body;
+  
+    fs.readFile("data.json", (err, data) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send("Internal Server Error");
+      }
+  
+      const jsonData = JSON.parse(data);
+      jsonData.data.push({
+        id: uuid.v4(),
+        name,
+        family,
+        number,
+        day,
+        mounth,
+        year,
+        subject,
+        Subscription
+      });
+  
+      fs.writeFile("data.json", JSON.stringify(jsonData), (err) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).send("Internal Server Error");
+        }
+  
+        console.log("done writing....");
+        res.status(200).json({ message: "تم إرسال البيانات بنجاح" });
+      });
+    });
+  });
+
+
+
+app.get("/delete/:id", async (req, res, next) => {
+    const idToDelete = parseInt(req.params.id, 10);
+
+    const indexToDelete = data.findIndex(item => item.id === idToDelete);
+
+    if (indexToDelete !== -1) {
+        data.splice(indexToDelete, 1);
+
+        fs.writeFile("data.json", JSON.stringify(data), (err) => {
+            if (err) throw err;
+            console.log("done deleting....");
+        });
+
+        res.send({ success: true, message: "Data deleted successfully" });
     } else {
-      console.log('تم إدراج البيانات بنجاح');
-      res.json({ success: true });
+        res.status(404).send({ success: false, message: "Data not found" });
     }
-  });
 });
 
-app.post('/view/:itemId', (req, res) => {
-  const view = req.params.itemId;
-  const sql = `UPDATE software SET view = view + 1 WHERE id = ${view}`;
-  con.query(sql, [view], (err, result) => {
-    if (err) {
-      throw err;
+app.get("/read/:id", (req, res) => {
+    const idToRead = parseInt(req.params.id, 10);
+    const item = data.find(item => item.id === idToRead);
+
+    if (item) {
+        res.send(item);
+    } else {
+        res.status(404).send({ success: false, message: "Data not found" });
     }
-  });
 });
 
-app.get('/software', (req, res) => {
-    const sql = 'SELECT * FROM software';
-    con.query(sql, (err, results) => {
-      if (err) {
-        console.error('error to show data from database');
-        res.status(500).json({ error: 'خطأ في استعراض البيانات' });
-      } else {
-        res.json(results);
-      }
-    });
-  });
+app.put("/update/:id", (req, res) => {
+    const idToUpdate = parseInt(req.params.id, 10);
+    const updatedItem = req.body;
+    const indexToUpdate = data.findIndex(item => item.id === idToUpdate);
+    if (indexToUpdate !== -1) {
+        data[indexToUpdate] = updatedItem;
+
+        fs.writeFile("data.json", JSON.stringify(data), (err) => {
+            if (err) throw err;
+            console.log("done updating....");
+        });
+
+        res.send({ success: true, message: "Data updated successfully" });
+    } else {
+        res.status(404).send({ success: false, message: "Data not found" });
+    }
+});
+
+app.get("/read", async (req, res, next) => {
+    console.log("Hellooo from products");
+    res.send(data);
+});
 
 
-  app.get('/app', (req, res) => {
-    const sql = 'SELECT * FROM software WHERE type = "application"';
-    con.query(sql, (err, results) => {
-      if (err) {
-        console.error('خطأ في استعراض البيانات:', err);
-        res.status(500).json({ error: 'خطأ في استعراض البيانات' });
-      } else {
-        res.json(results);
-      }
+
+app.get("/read/:id", (req, res, next) => {
+    const userId = req.params.id;
+
+    fs.readFile("data.json", (err, data) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send("Internal Server Error");
+        }
+
+        const jsonData = JSON.parse(data);
+        const user = jsonData.data.find(user => user.id === userId);
+
+        if (user) {
+            console.log("User found:", user);
+            res.status(200).json(user);
+        } else {
+            console.log("User not found.");
+            res.status(404).json({ message: "المستخدم غير موجود" });
+        }
     });
-  });
-  app.get('/game', (req, res) => {
-    const sql = 'SELECT * FROM software WHERE type = "game"';
-    con.query(sql, (err, results) => {
-      if (err) {
-        console.error('خطأ في استعراض البيانات:', err);
-        res.status(500).json({ error: 'خطأ في استعراض البيانات' });
-      } else {
-        res.json(results);
-      }
-    });
-  });
+});
+
 app.listen(port , () => {
-    console.log('login at port ' + port);
-});
+    console.log(`=> http://localhost:${port}`);
+})
